@@ -20,7 +20,7 @@ export default function Home() {
                                 fill="white"
                                 width="24"
                                 height="24"
-                                xmlns="http://www.w3.org/2000/svg"
+                                xmlns="https://www.svgrepo.com/show/455135/beach-holiday.svg"
                                 fillRule="evenodd"
                                 clipRule="evenodd"
                             >

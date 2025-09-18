@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import logo2 from '../assets/logo2.png'
 
 export default function Footer() {
     return (
@@ -9,7 +10,7 @@ export default function Footer() {
                     <div className="mb-6 md:mb-0">
                         <Link to="/" className="flex items-center">
                             <img
-                                src="https://alexharkness.com/wp-content/uploads/2020/06/logo-2.png"
+                                src={logo2}
                                 className="mr-3 h-16"
                                 alt="Logo"
                             />
