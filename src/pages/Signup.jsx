@@ -3,14 +3,14 @@ import {useNavigation} from 'react-router-dom'
 
 const Signup = () => {
     const navigate = useNavigation();
-  const [age, setAge] = useState(10);
+  const [age, setAge] = useState('');
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSignup = (e) => {
-    e.preventDefault();
+    e.preventDefault(); //stops page refresh 
 
     //form data validation
     if (!name || !email || !pass || !age) {
@@ -32,7 +32,7 @@ const Signup = () => {
     setName("");
     setEmail("");
     setPass("");
-    setAge(10);
+    setAge('');
 
     // redirect to login page
     navigate("/login");
