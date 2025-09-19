@@ -9,6 +9,7 @@ import Contact from './components/Contact';
 import User from './components/User';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
+import Github, {githubInfoLoader} from './components/Github';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -19,6 +20,8 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login/>}/>
       <Route path='contact' element={<Contact/>}/>
       <Route path='user/:userid' element={<User/>}/>
+      <Route loader={githubInfoLoader} path='github' element={<Github/>}/>
+
     </Route>
   )
 )
