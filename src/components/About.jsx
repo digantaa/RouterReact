@@ -1,13 +1,14 @@
 import React from 'react'
+import batman from '../assets/batman.jpeg';
 
 export default function About() {
   return (
       <div className="py-16 bg-white">
           <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
               <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
-                  <div className="md:5/12 lg:w-5/12">
+                  <div className="rounded-full md:5/12 lg:w-5/12">
                       <img
-                          src="https://tailus.io/sources/blocks/left-image/preview/images/startup.png"
+                          src={batman}
                           alt="image"
                       />
                   </div>
