@@ -30,10 +30,7 @@ const Login = () => {
   };
   return (
     <div>
-      <h1 className="bg-rose-200 text-5xl font-bold items-center justify-center flex h-20 pb-2">
-        Login page
-      </h1>
-      <form onSubmit={handleLogin} className="flex flex-col gap-7 justify-center bg-rose-200 items-center min-h-screen -mt-20 ">
+      <form onSubmit={handleLogin} className="flex flex-col gap-7 justify-center items-center min-h-screen -mt-20 ">
         <div className="flex items-center gap-3">
           <label className="w-20 font-medium" htmlFor="email">
             Email

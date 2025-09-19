@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import {useNavigation} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 
 const Signup = () => {
-    const navigate = useNavigation();
+    const navigate = useNavigate();
   const [age, setAge] = useState('');
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -40,13 +40,9 @@ const Signup = () => {
 
   return (
     <div>
-      <h1 className="bg-rose-200 text-5xl shadow-2xl font-bold items-center justify-center flex h-20 pb-2">
-        Signup page
-      </h1>
-
       <form
         onSubmit={handleSignup}
-        className="flex flex-col gap-4 justify-center bg-rose-200 items-center min-h-screen "
+        className="flex flex-col gap-4 justify-center items-center min-h-screen "
       >
         <div className="flex items-center gap-3">
           <label className="w-20 font-medium" htmlFor="name">
