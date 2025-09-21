@@ -7,19 +7,19 @@ const app = express();
 app.use(express.json());
 
 // DB setup
-mongoose.connect("mongodb://127.0.0.1:27017/test_forgot");
+mongoose.connect("mongodb+srv://diganta123:<db_password>@cluster0.mcho030.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 
 // User Schema
 const userSchema = new mongoose.Schema({
   email: String,
-  password: String,
+  pass: String,
   resetToken: String,
   resetTokenExpiry: Date
 });
 
 const User = mongoose.model("User", userSchema);
 
-// 📍 Signup
+// Signup
 app.post("/signup", async (req, res) => {
   const { email, password } = req.body;
   const hashed = await bcrypt.hash(password, 10);
@@ -27,7 +27,7 @@ app.post("/signup", async (req, res) => {
   res.json({ msg: "User created" });
 });
 
-// 📍 Forgot Password (generate token)
+//Forgot Password (generate token)
 app.post("/forgot", async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email });
@@ -42,7 +42,7 @@ app.post("/forgot", async (req, res) => {
   res.json({ msg: "Reset link generated", link: `http://localhost:3000/reset/${token}` });
 });
 
-// 📍 Reset Password
+// Reset Password
 app.post("/reset/:token", async (req, res) => {
   const { token } = req.params;
   const { newPassword } = req.body;
