@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json()); // parse JSON
 
 // Connect to MongoDB
-mongoose.connect("mongodb+srv://diganta123:<db_password>@cluster0.mcho030.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0") 
+mongoose.connect("mongodb+srv://diganta123:diganta123@cluster0.mcho030.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0") 
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(" DB Error:", err));
 
