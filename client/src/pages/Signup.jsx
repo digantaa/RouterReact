@@ -9,7 +9,7 @@ const Signup = () => {
   const [pass, setPass] = useState("");
   const [message, setMessage] = useState("");
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault(); //stops page refresh 
 
     //form data validation
@@ -25,17 +25,45 @@ const Signup = () => {
     return;
   }
 
-    const user = { name, email, pass, age };
-    localStorage.setItem("user", JSON.stringify(user));
-    setMessage("😔 Signup ho gaya hai 😔");
+  //for using local storage for user data storage
+  //   const user = { name, email, pass, age };
+  //   localStorage.setItem("user", JSON.stringify(user));
+  //   setMessage("😔 Signup ho gaya hai 😔");
 
-    setName("");
-    setEmail("");
-    setPass("");
-    setAge('');
+  //   setName("");
+  //   setEmail("");
+  //   setPass("");
+  //   setAge('');
 
-    // redirect to login page
-    navigate("/login");
+  //   // redirect to login page
+  //   navigate("/login");
+  // };
+
+  //now using mongourl
+    try {
+      const res = await fetch("http://localhost:3000/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password: pass, age }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        setMessage("😄 Signup successful! 😄");
+        setName("");
+        setEmail("");
+        setPass("");
+        setAge("");
+        // redirect to login page after 1 sec
+        setTimeout(() => navigate("/login"), 1000);
+      } else {
+        alert(data.msg || "Signup failed");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
+    }
   };
 
   return (
