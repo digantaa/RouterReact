@@ -1,6 +1,6 @@
 # React Router Website with Authentication
 
-A simple but fully functional stylish website built with **React Router** on the frontend and **Node.js + Express + MongoDB** on the backend.  
+A simple but fully functional, stylish website built with **React Router** on the frontend and **Node.js + Express + MongoDB** on the backend.  
 It includes authentication features such as **Login**, **Signup**, and **Forgot Password**, with user data stored securely in MongoDB.
 
 ---
@@ -27,5 +27,5 @@ It includes authentication features such as **Login**, **Signup**, and **Forgot 
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/digantaa/RouterReact.git
+git clone (https://github.com/digantaa/RouterReact.git)
 cd RouterReact
