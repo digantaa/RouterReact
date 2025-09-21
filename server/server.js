@@ -1,68 +1,27 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
+import User from "./models/User.js";
+
 
 const app = express();
-app.use(express.json());
+app.use(cors());
+app.use(express.json()); // parse JSON
 
-// DB setup
-mongoose.connect("mongodb+srv://diganta123:<db_password>@cluster0.mcho030.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+// Connect to MongoDB
+mongoose.connect("mongodb+srv://diganta123:<db_password>@cluster0.mcho030.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0") 
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.error(" DB Error:", err));
 
-// User Schema
-const userSchema = new mongoose.Schema({
-  email: String,
-  pass: String,
-  resetToken: String,
-  resetTokenExpiry: Date
-});
-
-const User = mongoose.model("User", userSchema);
-
-// Signup
 app.post("/signup", async (req, res) => {
-  const { email, password } = req.body;
-  const hashed = await bcrypt.hash(password, 10);
-  await User.create({ email, password: hashed });
-  res.json({ msg: "User created" });
-});
-
-//Forgot Password (generate token)
-app.post("/forgot", async (req, res) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
-  if (!user) return res.status(404).json({ msg: "User not found" });
-
-  const token = jwt.sign({ id: user._id }, "secret", { expiresIn: "15m" });
-  user.resetToken = token;
-  user.resetTokenExpiry = Date.now() + 15 * 60 * 1000;
-  await user.save();
-
-  // Normally send email, here just return token
-  res.json({ msg: "Reset link generated", link: `http://localhost:3000/reset/${token}` });
-});
-
-// Reset Password
-app.post("/reset/:token", async (req, res) => {
-  const { token } = req.params;
-  const { newPassword } = req.body;
-
   try {
-    const decoded = jwt.verify(token, "secret");
-    const user = await User.findById(decoded.id);
-
-    if (!user || user.resetToken !== token || user.resetTokenExpiry < Date.now()) {
-      return res.status(400).json({ msg: "Invalid or expired token" });
-    }
-
-    user.password = await bcrypt.hash(newPassword, 10);
-    user.resetToken = null;
-    user.resetTokenExpiry = null;
-    await user.save();
-
-    res.json({ msg: "Password reset successful" });
+    const { name, email, password } = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10); // hash password
+    const newUser = await User.create({ name, email, password: hashedPassword });
+    res.json({ msg: "User created", user: newUser });
   } catch (err) {
-    res.status(400).json({ msg: "Invalid or expired token" });
+    res.status(400).json({ msg: "Error", error: err.message });
   }
 });
 
