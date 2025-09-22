@@ -25,4 +25,48 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// =================== Forgot Password ===================
+
+// Request password reset
+app.post("/forget", async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    user.resetToken = resetToken;
+    user.resetTokenExpiry = Date.now() + 3600000; // 1 hour expiry
+    await user.save();
+
+    // Send reset link (here just console.log)
+    console.log(`Reset link: http://localhost:3000/reset/${resetToken}`);
+    res.json({ msg: "Password reset link sent to email" });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+});
+
+// Reset password
+app.post("/reset/:token", async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+  try {
+    const user = await User.findOne({
+      resetToken: token,
+      resetTokenExpiry: { $gt: Date.now() },
+    });
+    if (!user) return res.status(400).json({ msg: "Invalid or expired token" });
+
+    user.password = await bcrypt.hash(password, 10); // hash new password
+    user.resetToken = undefined;
+    user.resetTokenExpiry = undefined;
+    await user.save();
+
+    res.json({ msg: "Password updated successfully" });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
+  }
+});
+
 app.listen(3000, () => console.log("Server running on http://localhost:3000"));

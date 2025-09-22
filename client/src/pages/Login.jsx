@@ -6,28 +6,60 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
-  const handleLogin = (e) => {
+
+  //-----------------------------using localstorage------------------------------------ 
+  // const handleLogin = (e) => {
+  //   e.preventDefault();
+
+  //   if (!email || !pass){
+  //     alert("bharde bhai chota form hai");
+  //     return
+  //   }
+  //   //get saved user
+  //   const savedUser = JSON.parse(localStorage.getItem("user"));
+
+  //   if (!savedUser) {
+  //     alert("Signup kon karega seedha login pe aa gayaa waah");
+  //   }
+
+  //   //check match
+  //   if (email === savedUser.email && pass === savedUser.pass) {
+  //     alert("✅✅ 7 crore");
+  //     navigate(); // navigate to wherever you want after successfull login
+  //   } else {
+  //     alert("👺Try again 👹");
+  //   }
+  // };
+
+  //---------------------------------using proper backend aka mongodb--------------------------------
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !pass){
-      alert("bharde bhai chota form hai");
+    if(!email || !pass){
+      alert("bharde shanti se ");
       return
     }
-    //get saved user
-    const savedUser = JSON.parse(localStorage.getItem("user"));
 
-    if (!savedUser) {
-      alert("Signup kon karega seedha login pe aa gayaa waah");
-    }
+    try {
+      const res = await fetch("http://localhost:3000/login", { // backend login endpoint
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password: pass }),
+      });
+      const data = await res.json();
 
-    //check match
-    if (email === savedUser.email && pass === savedUser.pass) {
-      alert("✅✅ 7 crore");
-      navigate(); // navigate to wherever you want after successfull login
-    } else {
-      alert("👺Try again 👹");
+      if (res.ok) {
+        alert("✅ Login successful");
+        navigate("/"); // redirect to homepage or dashboard
+      } else {
+        alert("👺 " + data.msg);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Server error");
     }
-  };
+  }
+
   return (
     <div>
       <form onSubmit={handleLogin} className="flex flex-col gap-7 justify-center items-center min-h-screen -mt-20 ">
