@@ -2,6 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import User from "./models/User.js";
 
 
@@ -14,14 +15,33 @@ mongoose.connect("mongodb+srv://diganta123:diganta123@cluster0.mcho030.mongodb.n
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.error(" DB Error:", err));
 
+  //signup route
 app.post("/signup", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10); // hash password
-    const newUser = await User.create({ name, email, password: hashedPassword });
+    const { name, email, password, age } = req.body; // include age
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await User.create({ name, email, password: hashedPassword, age });
     res.json({ msg: "User created", user: newUser });
   } catch (err) {
     res.status(400).json({ msg: "Error", error: err.message });
+  }
+});
+
+
+//login route
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) return res.status(400).json({ msg: "Invalid credentials" });
+
+    res.json({ msg: "Login successful", user });
+  } catch (err) {
+    res.status(500).json({ msg: err.message });
   }
 });
 

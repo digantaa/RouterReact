@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [password, setPass] = useState("");
 
 
   //-----------------------------using localstorage------------------------------------ 
@@ -35,7 +36,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if(!email || !pass){
+    if(!email || !password){
       alert("bharde shanti se ");
       return
     }
@@ -44,7 +45,7 @@ const Login = () => {
       const res = await fetch("http://localhost:3000/login", { // backend login endpoint
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password: pass }),
+        body: JSON.stringify({ email, password: password }),
       });
       const data = await res.json();
 
@@ -86,7 +87,7 @@ const Login = () => {
             className="border bg-rose-50 rounded-2xl px-5 py-2 w-72"
             type="password"
             placeholder="Your password please"
-            value={pass}
+            value={password}
             onChange={(e) => {
               setPass(e.target.value)
             }}

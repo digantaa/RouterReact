@@ -10,6 +10,7 @@ import User from './components/User';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Github, {githubInfoLoader} from './components/Github';
+import Forget from './pages/Forget';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route path='about' element={<About/>}/>
       <Route path='signup' element={<Signup/>}/>
       <Route path='login' element={<Login/>}/>
+      <Route path='forget' element={<Forget/>} />
       <Route path='contact' element={<Contact/>}/>
       <Route path='user/:userid' element={<User/>}/>
       <Route loader={githubInfoLoader} path='github' element={<Github/>}/>

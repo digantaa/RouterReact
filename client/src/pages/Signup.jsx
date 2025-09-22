@@ -6,27 +6,20 @@ const Signup = () => {
   const [age, setAge] = useState('');
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [pass, setPass] = useState("");
+  const [password, setPass] = useState("");
   const [message, setMessage] = useState("");
 
   const handleSignup = async (e) => {
     e.preventDefault(); //stops page refresh 
 
     //form data validation
-    if (!name || !email || !pass || !age) {
+    if (!name || !email || !password || !age) {
     alert("Shanti se form ni bharaa jaara kya!");
     return;
   }
-    const passRegex = /^(?=.*[A-Z])(?=.*\d).{6,8}$/;
-  if (!passRegex.test(pass)) {
-    alert(
-      "Password must be at least 6 characters long and maximum 8 characters long, /ninclude 1 uppercase letter and 1 number bla bla bla."
-    );
-    return;
-  }
-
+  
   //for using local storage for user data storage
-  //   const user = { name, email, pass, age };
+  //   const user = { name, email, password, age };
   //   localStorage.setItem("user", JSON.stringify(user));
   //   setMessage("😔 Signup ho gaya hai 😔");
 
@@ -44,7 +37,7 @@ const Signup = () => {
       const res = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password: pass, age }),
+        body: JSON.stringify({ name, email, password: password, age }),
       });
 
       const data = await res.json();
@@ -107,7 +100,7 @@ const Signup = () => {
             className="border bg-rose-50 rounded-2xl px-5 py-2 w-72"
             type="password"
             placeholder="Your password please"
-            value={pass}
+            value={password}
             onChange={(e) => setPass(e.target.value)}
           />
         </div>
