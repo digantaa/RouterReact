@@ -55,6 +55,7 @@ const Signup = () => {
         setEmail("");
         setPass("");
         setAge("");
+        
         // redirect to login page after 1 sec
         setTimeout(() => navigate("/login"), 1000);
       } else {

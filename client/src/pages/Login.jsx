@@ -66,6 +66,7 @@ const Login = () => {
         >
           Login ji
         </button>
+        <Link to="/forget" className="block mt-10">Forget password</Link>
       </form>
     </div>
   );
